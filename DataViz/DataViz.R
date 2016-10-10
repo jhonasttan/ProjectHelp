@@ -1,3 +1,10 @@
+#This is my DataViz project
+
+#This is where I obtained my dataset http://archive.ics.uci.edu/ml/datasets/News+Aggregator#
+
+#If you put the data files in the working directory the code should work
+
+
 #set working directory and loack packages
 setwd("Projects_NYCDSA7/DataViz")
 library(dplyr)
@@ -15,3 +22,6 @@ colnames(data2) <- c("clusterid", "hostname", "category", "url")
 MergedNews <- inner_join(data1, data2, by=c("clusterid", "category"))
 
 #Plot graph category, number of publications
+newsplot <- ggplot(data = MergedNews,aes(x = category))
+newsplot + geom_bar(aes(fill = category))
+                                                       
