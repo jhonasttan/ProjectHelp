@@ -5,7 +5,7 @@
 #If you put the data files in the working directory the code should work
 
 
-#set working directory and loack packages
+#set working directory and load packages
 setwd("Projects_NYCDSA7/DataViz")
 library(dplyr)
 library(ggplot2)
@@ -18,10 +18,20 @@ data2 <- read.csv("2pageSessions.csv", header = FALSE, sep = "\t")
 colnames(data1) <- c("id", "hdline", "url", "publisher", "category", "clusterid", "hostname", "timestamp")
 colnames(data2) <- c("clusterid", "hostname", "category", "url")
 
+
 #Inner Join based on clusterid
-MergedNews <- inner_join(data1, data2, by=c("clusterid", "category"))
+MergedNews <- full_join(data2, data1, by=c("clusterid", "category"))
+
+#Sum categories
+#CategoryCount <- data.frame(table(MergedNews$category))
+
+#Top stories
+TopStories <- head(unique(MergedNews$clusterid))
+
+#Top 10 publishers
+Top10Publishers <- head(MergedNews$publisher, n=10)
 
 #Plot graph category, number of publications
-newsplot <- ggplot(data = MergedNews,aes(x = category))
-newsplot + geom_bar(aes(fill = category))
+newsplot <- ggplot(data = MergedNews,aes(x=category))
+newsplot + geom_bar(aes(fill=category)) #will need to adjust y axis label 
                                                        
